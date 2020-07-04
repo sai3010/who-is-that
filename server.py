@@ -1,25 +1,20 @@
 import face_recognition
 import cv2
 import numpy as np
+import glob
 
 video_capture = cv2.VideoCapture(0)
 
-spoo_image = face_recognition.load_image_file("spoo.jpg")
-spoo_face_encoding = face_recognition.face_encodings(spoo_image)[0]
-
-
-sai_image = face_recognition.load_image_file("sai.jpg")
-sai_face_encoding = face_recognition.face_encodings(sai_image)[0]
-
-# Create arrays of known face encodings and their names
-known_face_encodings = [
-    spoo_face_encoding,
-    sai_face_encoding
-]
-known_face_names = [
-    "Spoorthi",
-    "Sai"
-]
+known_face_encodings = []
+known_face_names = []
+# Reading from faces folder 
+for file_name in glob.iglob('faces/*', recursive=True):
+    print(file_name)
+    person_name = file_name.split("/")[1].split('.')[0]
+    image = face_recognition.load_image_file(file_name)
+    image_encoding = face_recognition.face_encodings(image)[0]
+    known_face_encodings.append(image_encoding)
+    known_face_names.append(person_name)
 
 face_locations = []
 face_encodings = []
@@ -65,11 +60,12 @@ while True:
         bottom *= 4
         left *= 4
 
-        # Draw a box around the face
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
-
-        # Draw a label with a name below the face
-        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+        if name == "Unknown":
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+            cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+        else:
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+            cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 255, 0), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
