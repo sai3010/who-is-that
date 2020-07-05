@@ -10,3 +10,5 @@ Show your face :)
 
 # Improving the detection
 - Add more faces to `faces` folder and start the server. Things should work automatically for you.
+
+Check out the post : https://www.linkedin.com/posts/saiprasanth-raghuraman_opencv-facerecognition-artificialintelligence-activity-6685456089695309824-8yem
