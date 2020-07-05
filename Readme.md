@@ -7,3 +7,6 @@
 - `pip install -r req.txt`
 - `python server.py`
 Show your face :)
+
+# Improving the detection
+- Add more faces to `faces` folder and start the server. Things should work automatically for you.
